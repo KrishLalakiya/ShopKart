@@ -2,13 +2,21 @@ import Customer from "../models/customer.model.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken.js";
 
-// Same options are used for res.cookie() and res.clearCookie(),
-// otherwise the browser keeps the old cookie after logout.
-const cookieOptions = {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 24 * 60 * 60 * 1000
+// Dynamic cookie options supporting cross-origin cookies in production (Vercel <-> Render)
+const getCookieOptions = (req) => {
+    const isProduction =
+        process.env.NODE_ENV === "production" ||
+        Boolean(process.env.CLIENT_URL && !process.env.CLIENT_URL.includes("localhost")) ||
+        req?.secure ||
+        req?.headers?.["x-forwarded-proto"] === "https";
+
+    return {
+        httpOnly: true,
+        secure: Boolean(isProduction),
+        sameSite: isProduction ? "none" : "lax",
+        path: "/",
+        maxAge: 24 * 60 * 60 * 1000
+    };
 };
 
 export const registerCustomer = async (req, res) => {
@@ -80,11 +88,12 @@ export const loginCustomer = async (req, res) => {
         }
 
         const token = generateToken(customer._id);
-        res.cookie("token", token, cookieOptions);
+        res.cookie("token", token, getCookieOptions(req));
 
         return res.status(200).json({
             success: true,
             message: "Login successful",
+            token,
             customer: {
                 _id: customer._id,
                 fullName: customer.fullName,
@@ -104,7 +113,7 @@ export const getProfile = async (req, res) => {
 
 export const logoutCustomer = async (req, res) => {
     try {
-        res.clearCookie("token", cookieOptions);
+        res.clearCookie("token", getCookieOptions(req));
 
         return res.status(200).json({
             success: true,
@@ -147,7 +156,7 @@ export const changePassword = async (req, res) => {
         await customer.save();
 
         // logging out the old session so the new password is used from scratch
-        res.clearCookie("token", cookieOptions);
+        res.clearCookie("token", getCookieOptions(req));
 
         return res.status(200).json({
             success: true,

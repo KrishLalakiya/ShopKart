@@ -26,6 +26,7 @@ function Navbar() {
             // even if the API call fails, send the user back to login
             console.error(error);
         } finally {
+            localStorage.removeItem("token");
             navigate("/login", { replace: true });
         }
     };

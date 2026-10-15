@@ -52,7 +52,10 @@ function Login() {
         setIsSubmitting(true);
 
         try {
-            await api.post("/customers/login", formData);
+            const res = await api.post("/customers/login", formData);
+            if (res.data?.token) {
+                localStorage.setItem("token", res.data.token);
+            }
 
             navigate("/home", { replace: true });
         } catch (error) {

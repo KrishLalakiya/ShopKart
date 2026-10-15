@@ -14,6 +14,7 @@ import orderRoutes from "./routes/order.routes.js";
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
 const port = process.env.PORT || 8082;
 
 // comma separated list of allowed frontend origins (see .env.example)

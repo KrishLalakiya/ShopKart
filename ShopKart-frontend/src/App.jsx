@@ -22,7 +22,10 @@ function ProtectedRoute({ children }) {
     useEffect(() => {
         api.get("/customers/me")
             .then(() => setIsLoggedIn(true))
-            .catch(() => setIsLoggedIn(false))
+            .catch(() => {
+                localStorage.removeItem("token");
+                setIsLoggedIn(false);
+            })
             .finally(() => setIsChecking(false));
     }, []);
 
@@ -44,7 +47,10 @@ function GuestRoute({ children }) {
     useEffect(() => {
         api.get("/customers/me")
             .then(() => setIsLoggedIn(true))
-            .catch(() => setIsLoggedIn(false))
+            .catch(() => {
+                localStorage.removeItem("token");
+                setIsLoggedIn(false);
+            })
             .finally(() => setIsChecking(false));
     }, []);
 
