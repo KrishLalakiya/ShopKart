@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
+.home-page {
+    min-height: 100vh;
+    background-color: #f7f3ea;
+}
+
+.home-container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 48px;
+    background-color: #fffdf8;
+    border-radius: 12px;
+    border: 1px solid #ddd6c5;
+    font-family: sans-serif;
+}
+
+.home-container .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #d9683f;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.home-container h2 {
+    font-family: 'Georgia', serif;
+    font-size: 32px;
+    color: #1c2b28;
+    margin-bottom: 32px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #ede7d8;
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+.profile-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #6b6b63;
+}
+
+.profile-value {
+    font-size: 15px;
+    color: #1c2b28;
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: sans-serif;
+    color: #6b6b63;
+    font-size: 16px;
+    background-color: #f7f3ea;
+}
